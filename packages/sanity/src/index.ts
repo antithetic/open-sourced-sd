@@ -14,7 +14,13 @@ export default defineConfig({
   projectId: 'u0y4587v',
   dataset: 'production',
 
-  plugins: [structureTool(), visionTool(), taxonomyManager({}), media(), unsplashImageAsset()],
+  plugins: [
+    structureTool(),
+    visionTool(),
+    taxonomyManager({}),
+    media(),
+    unsplashImageAsset(),
+  ],
 
   schema: {
     types: schemaTypes,
