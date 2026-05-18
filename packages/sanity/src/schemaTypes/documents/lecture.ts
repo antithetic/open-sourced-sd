@@ -1,9 +1,11 @@
 import { defineField, defineType } from 'sanity'
+import { ScrollText } from 'lucide-react'
 
 export const lecture = defineType({
   name: 'lecture',
   title: 'Lecture',
   type: 'document',
+  icon: ScrollText,
   fields: [
     defineField({
       name: 'title',

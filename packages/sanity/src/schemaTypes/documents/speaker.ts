@@ -1,9 +1,11 @@
 import { defineField, defineType } from 'sanity'
+import { CircleUser } from 'lucide-react'
 
 export const speaker = defineType({
   name: 'speaker',
   title: 'Speaker',
   type: 'document',
+  icon: CircleUser,
   fields: [
     defineField({
       name: 'name',

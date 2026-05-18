@@ -1,9 +1,11 @@
 import { defineField, defineType } from 'sanity'
+import { Calendar1 } from 'lucide-react'
 
 export const event = defineType({
   name: 'event',
   title: 'Event',
   type: 'document',
+  icon: Calendar1,
   fields: [
     defineField({
       name: 'title',
@@ -47,6 +49,12 @@ export const event = defineType({
       of: [{ type: 'reference', to: [{ type: 'lecture' }] }],
     }),
     defineField({
+      name: 'coverImage',
+      title: 'Cover image',
+      type: 'image',
+      options: { hotspot: true },
+    }),
+    defineField({
       name: 'description',
       title: 'Description',
       type: 'text',
@@ -62,12 +70,14 @@ export const event = defineType({
       title: 'title',
       date: 'date',
       series: 'series.title',
+      media: 'coverImage',
     },
-    prepare({ title, date, series }) {
+    prepare({ title, date, series, media }) {
       const formattedDate = date ? new Date(date).toLocaleDateString() : undefined
       return {
         title,
         subtitle: [series, formattedDate].filter(Boolean).join(' · '),
+        media,
       }
     },
   },

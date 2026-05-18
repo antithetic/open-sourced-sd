@@ -1,9 +1,11 @@
 import { defineField, defineType } from 'sanity'
+import { FolderBookmark } from 'lucide-react'
 
 export const series = defineType({
   name: 'series',
   title: 'Series',
   type: 'document',
+  icon: FolderBookmark,
   fields: [
     defineField({
       name: 'title',
