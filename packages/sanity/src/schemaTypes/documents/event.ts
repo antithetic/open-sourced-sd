@@ -7,6 +7,7 @@ export const event = defineType({
   type: 'document',
   icon: Calendar1,
   fields: [
+    // ── Core identity ────────────────────────────────────────────
     defineField({
       name: 'title',
       title: 'Title',
@@ -17,30 +18,75 @@ export const event = defineType({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      options: { source: 'title' },
-    }),
-    defineField({
-      name: 'series',
-      title: 'Series',
-      type: 'reference',
-      to: [{ type: 'series' }],
+      options: {
+        source: 'title',
+        maxLength: 96,
+      },
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+    }),
+    defineField({
+      name: 'status',
+      title: 'Status',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Draft', value: 'draft' },
+          { title: 'Upcoming', value: 'upcoming' },
+          { title: 'Live', value: 'live' },
+          { title: 'Archived', value: 'archived' },
+          { title: 'Cancelled', value: 'cancelled' },
+        ],
+        layout: 'dropdown',
+      },
+      initialValue: 'draft',
+      validation: (Rule) => Rule.required(),
+    }),
+    // ── Date & time ──────────────────────────────────────────────
     defineField({
       name: 'date',
       title: 'Date',
-      type: 'datetime',
+      type: 'date',
+      options: { dateFormat: 'YYYY-MM-DD' },
       validation: (Rule) => Rule.required(),
     }),
+
+    defineField({
+      name: 'startTime',
+      title: 'Start time',
+      type: 'string',
+      description: 'e.g. 18:30',
+      validation: (Rule) =>
+        Rule.regex(/^([01]\d|2[0-3]):[0-5]\d$/, {
+          name: 'time',
+          invert: false,
+        }).warning('Use HH:MM format (24-hour).'),
+    }),
+
+    defineField({
+      name: 'endTime',
+      title: 'End time',
+      type: 'string',
+      description: 'e.g. 21:00',
+    }),
+
+    defineField({
+      name: 'series',
+      title: 'Series',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'series' }] }],
+    }),
+
     defineField({
       name: 'venue',
       title: 'Venue',
-      type: 'object',
-      fields: [
-        defineField({ name: 'name', title: 'Name', type: 'string' }),
-        defineField({ name: 'address', title: 'Address', type: 'string' }),
-        defineField({ name: 'url', title: 'URL', type: 'url' }),
-      ],
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'venue' }] }],
+      validation: (Rule) => Rule.required().min(1),
     }),
     defineField({
       name: 'lectures',
@@ -54,11 +100,7 @@ export const event = defineType({
       type: 'image',
       options: { hotspot: true },
     }),
-    defineField({
-      name: 'description',
-      title: 'Description',
-      type: 'text',
-    }),
+
     defineField({
       name: 'recordingUrl',
       title: 'Full event recording',
