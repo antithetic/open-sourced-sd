@@ -1,7 +1,4 @@
-import { event } from './documents/event'
-import { lecture } from './documents/lecture'
-import { series } from './documents/series'
-import { speaker } from './documents/speaker'
-import { topic } from './documents/topic'
+import { documentTypes } from './documents'
+import { objectTypes } from './objects'
 
-export const schemaTypes = [series, event, lecture, speaker, topic]
+export const schemaTypes = [...documentTypes, ...objectTypes]
